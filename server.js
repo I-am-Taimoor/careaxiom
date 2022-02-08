@@ -3,7 +3,9 @@ var getTitleAtUrl = require('get-title-at-url');
 const app = express();
 const port = 8000
 const host= 'localhost'
-
+var head = '<html><head></head><body><h1> Following are the titles of given websites: </h1><ul>';
+var end = '</ul></body></html>';
+var list='';
 
 app.listen(port, host, (req,res)=>{
     console.log('listening on port' + port)
@@ -15,32 +17,24 @@ app.get('/I/want/title/', (req, res)=>{
     if(typeof(address) == typeof(''))
    {
         getTitleAtUrl(address, function(title){
-            res.send('<html><head></head><body><h1> Following are the titles of given websites: </h1><ul>' + 
-            '<li>' + address +'  -  ' + title + '</li>'
-             + '</ul></body></html>')
-      });
-      
+            list = list +  '<li>' + address +'  -  ' + title + '</li>';
+          });
     }
 else
     {
-        
-        for(var i in address)
+    
+    var k = 0;    
+    for(var i in address)
        { 
-            getTitleAtUrl(address[i], function(title)
+           getTitleAtUrl(address[i], function(title)
             {
-                for(var i in address)
-                res.send('<html><head></head><body><h1> Following are the titles of given websites: </h1><ul>' + 
-                '<li>' + address[i] +'  -  ' + title + '</li>'
-                + '</ul></body></html>')
-
-            })
+                list = list +  '<li>' + address[k] +'  -  ' + title + '</li>';
+                k=k+1;
+   
+            },
+            )
         };
     }
-    
-},)
-
-
-
-
-
-
+    res.send(head + list + end) 
+},
+)
