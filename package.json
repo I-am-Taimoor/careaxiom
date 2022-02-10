@@ -10,8 +10,10 @@
   "author": "taimoor",
   "license": "ISC",
   "dependencies": {
+    "async": "^3.2.3",
     "express": "^4.17.2",
     "get-title-at-url": "^1.1.8",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "rsvp": "^4.8.5"
   }
 }

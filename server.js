@@ -1,4 +1,5 @@
 const express = require('express');
+const utility = require('./Utility.js')
 var getTitleAtUrl = require('get-title-at-url');
 const app = express();
 const port = 8000
@@ -16,34 +17,28 @@ app.get('/I/want/title/', (req, res)=>{
      console.log('Query Params', req.query);
     if(typeof(address) == typeof(''))
    {
-        asyncCall(address);
+	getTitle(address);
     }
 else
     {
     for(var i in address)
        { 
-           asyncCall(address[i]);
+		getTitle(address[i]);
         };
     }
     res.send(head + list + end) 
 },
 )
 
-
-function getTitle(address) {
-    return new Promise(resolve => {
-        getTitleAtUrl(address, function(title){
+  async function getTitle(address) {
+    await new Promise(() => {
+        utility.requestTitle(address, function(title){
             if(title == undefined || title == null || title == '')
             {
                 title = 'NO RESPONSE'
             }
-            list = list +  '<li>' + address +'  -  ' + title + '</li>';
+            list = list +  '<li>' + address + '   -   ' + title + '</li>';
           });
-          resolve('resolved')
     });
-  }
-  
-  async function asyncCall(address) {
-    await getTitle(address);
   }
     
